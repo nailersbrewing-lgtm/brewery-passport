@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craft Brew Passport Survey - Festival Country</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #d4a574 0%, #8b6914 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .header::before {
+            content: "🍺";
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+        }
+        
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 25px;
+        }
+        
+        .intro-text {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-left: 5px solid #d4a574;
+            padding: 18px;
+            margin-bottom: 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        
+        .form-group {
+            margin-bottom: 32px;
+        }
+        
+        .form-group:last-of-type {
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: flex;
+            align-items: flex-start;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a2e;
+            font-size: 16px;
+        }
+        
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #d4a574 0%, #8b6914 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        input[type="text"],
+        textarea,
+        input[type="email"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #d4a574;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-size: 15px;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+        
+        .required {
+            color: #d9534f;
+            margin-left: 4px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 14px;
+            margin-top: 36px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #d4a574 0%, #8b6914 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 105, 20, 0.2);
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 105, 20, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .reset-btn {
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 2px solid #bdc3c7;
+            font-weight: 600;
+        }
+        
+        .reset-btn:hover {
+            background: #d5dbdb;
+            border-color: #95a5a6;
+        }
+        
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .success-screen.show {
+            display: block;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease-out;
+        }
+        
+        @keyframes bounce {
+            0% {
+                transform: scale(0) rotateZ(-45deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1) rotateZ(0deg);
+                opacity: 1;
+            }
+        }
+        
+        .success-message h2 {
+            color: #27ae60;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .success-message p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .success-message .subtext {
+            color: #999;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .submit-btn.loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            font-size: 14px;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 26px;
+            }
+            
+            .content {
+                padding: 25px 18px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            label {
+                font-size: 15px;
+            }
+            
+            input[type="text"],
+            textarea,
+            input[type="email"] {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Craft Brew Passport</h1>
+            <p>Festival Country, Indiana</p>
+        </div>
+        
+        <div class="content">
+            <div class="error-message" id="errorMessage"></div>
+            
+            <div id="formContainer">
+                <div class="intro-text">
+                    Thank you for exploring Festival Country's craft breweries! We'd love to hear about your experience. Your feedback helps us bring you amazing events and supports our local brewing community.
+                </div>
+                
+                <form id="surveyForm">
+                    <div class="form-group">
+                        <label>
+                            <span class="question-number">1</span>
+                            <span>What has been your favorite brewery and why?<span class="required">*</span></span>
+                        </label>
+                        <input 
+                            type="text" 
+                            name="favoriteBrewery" 
+                            placeholder="Tell us about your favorite stop..." 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <span class="question-number">2</span>
+                            <span>What has been the most disliked brewery and why?<span class="required">*</span></span>
+                        </label>
+                        <input 
+                            type="text" 
+                            name="dislikedBrewery" 
+                            placeholder="Let us know what didn't work for you..." 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <span class="question-number">3</span>
+                            <span>What beer has been your favorite from the trail and from where?<span class="required">*</span></span>
+                        </label>
+                        <textarea 
+                            name="favoriteBeer" 
+                            placeholder="Share your favorite beer find and what brewery it's from..." 
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="submit" class="submit-btn" id="submitBtn">Submit Feedback</button>
+                        <button type="reset" class="reset-btn">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="successContainer" class="success-screen">
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2>Thank You!</h2>
+                    <p>Your feedback has been recorded and will help us create better experiences for our brewery community.</p>
+                    <div class="subtext">We appreciate your time completing the Craft Brew Passport!</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Supporting Local Breweries • Festival Country, Indiana
+        </div>
+    </div>
+    
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI5aINjvC2_uyXP3fIa4-VEH8ychLuzGqNQtkTXn8fwCfqerWa-Ec7WZRsH4OwFn_KsA/exec';
+        
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const formContainer = document.getElementById('formContainer');
+            const successContainer = document.getElementById('successContainer');
+            
+            // Hide error message
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            const spinner = document.createElement('div');
+            spinner.className = 'loading-spinner';
+            spinner.style.display = 'inline-block';
+            submitBtn.innerHTML = '';
+            submitBtn.appendChild(spinner);
+            submitBtn.appendChild(document.createTextNode('Submitting...'));
+            
+            try {
+                // Collect form data
+                const formData = new FormData(this);
+                
+                // Submit to Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+                
+                // Show success screen
+                formContainer.style.display = 'none';
+                successContainer.classList.add('show');
+                
+                // Reset form for next user (hidden)
+                document.getElementById('surveyForm').reset();
+                
+                // Optional: Redirect after delay (commented out - remove if needed)
+                // setTimeout(() => {
+                //     location.reload();
+                // }, 5000);
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                errorMessage.textContent = 'There was an issue submitting your feedback. Please try again.';
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Feedback';
+            }
+        });
+        
+        // Allow form reset to show the form again
+        document.querySelector('.reset-btn').addEventListener('click', function(e) {
+            // This only works if they click reset before submitting
+            // After success, they see the thank you screen
+        });
+    </script>
+</body>
+</html>
