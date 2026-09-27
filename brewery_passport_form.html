@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Craft Brew Passport Survey </title>
+    <title>Craft Brew Passport Survey</title>
     <style>
         * {
             margin: 0;
@@ -104,9 +104,19 @@
             flex-shrink: 0;
         }
         
+        .sub-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+        
         input[type="text"],
         textarea,
-        input[type="email"] {
+        input[type="email"],
+        select {
             width: 100%;
             padding: 14px;
             border: 2px solid #e0e0e0;
@@ -119,16 +129,27 @@
         
         input[type="text"]:focus,
         textarea:focus,
-        input[type="email"]:focus {
+        input[type="email"]:focus,
+        select:focus {
             outline: none;
             border-color: #d4a574;
             background: white;
             box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
         }
         
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1.5em;
+            padding-right: 40px;
+        }
+        
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
             font-size: 15px;
         }
         
@@ -300,7 +321,8 @@
             
             input[type="text"],
             textarea,
-            input[type="email"] {
+            input[type="email"],
+            select {
                 font-size: 16px;
             }
         }
@@ -325,27 +347,51 @@
                     <div class="form-group">
                         <label>
                             <span class="question-number">1</span>
-                            <span>What has been your favorite brewery or Pub and why?<span class="required">*</span></span>
+                            <span>What has been your favorite brewery or pub?<span class="required">*</span></span>
                         </label>
-                        <input 
-                            type="text" 
-                            name="favoriteBrewery" 
-                            placeholder="Tell us about your favorite stop..." 
+                        <select name="favoriteBrewery" required>
+                            <option value="">-- Select a brewery or pub --</option>
+                            <option value="Chilly Water Brewing Co">Chilly Water Brewing Co</option>
+                            <option value="Draft Day Pub">Draft Day Pub</option>
+                            <option value="MashCraft Brewing Co">MashCraft Brewing Co</option>
+                            <option value="Nailers Brewing Co.">Nailers Brewing Co.</option>
+                            <option value="Oaken Barrel Brewing Co">Oaken Barrel Brewing Co</option>
+                            <option value="Planetary Brewing Co">Planetary Brewing Co</option>
+                            <option value="Shale Creek Brewing Co">Shale Creek Brewing Co</option>
+                            <option value="SmockTown Brewery">SmockTown Brewery</option>
+                            <option value="Tax Man Brewing Co.">Tax Man Brewing Co.</option>
+                        </select>
+                        <label class="sub-label">Why?<span class="required">*</span></label>
+                        <textarea 
+                            name="favoriteBreweryWhy" 
+                            placeholder="Tell us what you loved about it..." 
                             required
-                        >
+                        ></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label>
                             <span class="question-number">2</span>
-                            <span>What has been the most disliked brewery or Pub and why?<span class="required">*</span></span>
+                            <span>What has been the most disliked brewery or pub?<span class="required">*</span></span>
                         </label>
-                        <input 
-                            type="text" 
-                            name="dislikedBrewery" 
+                        <select name="dislikedBrewery" required>
+                            <option value="">-- Select a brewery or pub --</option>
+                            <option value="Chilly Water Brewing Co">Chilly Water Brewing Co</option>
+                            <option value="Draft Day Pub">Draft Day Pub</option>
+                            <option value="MashCraft Brewing Co">MashCraft Brewing Co</option>
+                            <option value="Nailers Brewing Co.">Nailers Brewing Co.</option>
+                            <option value="Oaken Barrel Brewing Co">Oaken Barrel Brewing Co</option>
+                            <option value="Planetary Brewing Co">Planetary Brewing Co</option>
+                            <option value="Shale Creek Brewing Co">Shale Creek Brewing Co</option>
+                            <option value="SmockTown Brewery">SmockTown Brewery</option>
+                            <option value="Tax Man Brewing Co.">Tax Man Brewing Co.</option>
+                        </select>
+                        <label class="sub-label">Why?<span class="required">*</span></label>
+                        <textarea 
+                            name="dislikedBreweryWhy" 
                             placeholder="Let us know what didn't work for you..." 
                             required
-                        >
+                        ></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -355,7 +401,7 @@
                         </label>
                         <textarea 
                             name="favoriteBeer" 
-                            placeholder="Share your favorite beer find and what brewery or Pub it's from..." 
+                            placeholder="Share your favorite beer find and what brewery it's from..." 
                             required
                         ></textarea>
                     </div>
