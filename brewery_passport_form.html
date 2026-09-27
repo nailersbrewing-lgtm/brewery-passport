@@ -428,8 +428,29 @@
         </div>
     </div>
     
-    <script>
-           const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4Ff_1sh0V_fOYw98yTMn-TM57Wqlq8BfWPNtxIF6hzM0V9CerpKmC2mzNPyPztNqA0g/exec';
+        <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4Ff_1sh0V_fOYw98yTMn-TM57Wqlq8BfWPNtxIF6hzM0V9CerpKmC2mzNPyPztNqA0g/exec';
+        
+        // Check if user already submitted within last 10 minutes
+        function checkIfAlreadySubmitted() {
+            const lastSubmission = localStorage.getItem('breweryFormSubmitted');
+            if (lastSubmission) {
+                const submittedTime = parseInt(lastSubmission);
+                const currentTime = Date.now();
+                const tenMinutesInMs = 10 * 60 * 1000;
+                
+                if (currentTime - submittedTime < tenMinutesInMs) {
+                    // They already submitted recently - show thank you screen
+                    document.getElementById('formContainer').style.display = 'none';
+                    document.getElementById('successContainer').classList.add('show');
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        // Check on page load
+        window.addEventListener('load', checkIfAlreadySubmitted);
         
         document.getElementById('surveyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -461,6 +482,9 @@
                     body: formData,
                     mode: 'no-cors'
                 });
+                
+                // Store submission time (10 minutes from now)
+                localStorage.setItem('breweryFormSubmitted', Date.now().toString());
                 
                 // Show success screen
                 formContainer.style.display = 'none';
