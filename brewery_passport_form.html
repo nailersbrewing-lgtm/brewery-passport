@@ -342,4 +342,95 @@
                         </label>
                         <input 
                             type="text" 
-                            name="dislikedBrewery"
+                            name="dislikedBrewery" 
+                            placeholder="Let us know what didn't work for you..." 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <span class="question-number">3</span>
+                            <span>What beer has been your favorite from the trail and from where?<span class="required">*</span></span>
+                        </label>
+                        <textarea 
+                            name="favoriteBeer" 
+                            placeholder="Share your favorite beer find and what brewery it's from..." 
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="submit" class="submit-btn" id="submitBtn">Submit Feedback</button>
+                        <button type="reset" class="reset-btn">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="successContainer" class="success-screen">
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2>Thank You!</h2>
+                    <p>Your feedback has been recorded and will help us create better experiences for our brewery community.</p>
+                    <div class="subtext">We appreciate your time completing the Craft Brew Passport!</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Supporting Local Breweries
+        </div>
+    </div>
+    
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI5aINjvC2_uyXP3fIa4-VEH8ychLuzGqNQtkTXn8fwCfqerWa-Ec7WZRsH4OwFn_KsA/exec';
+        
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const formContainer = document.getElementById('formContainer');
+            const successContainer = document.getElementById('successContainer');
+            
+            // Hide error message
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            const spinner = document.createElement('div');
+            spinner.className = 'loading-spinner';
+            spinner.style.display = 'inline-block';
+            submitBtn.innerHTML = '';
+            submitBtn.appendChild(spinner);
+            submitBtn.appendChild(document.createTextNode('Submitting...'));
+            
+            try {
+                // Collect form data
+                const formData = new FormData(this);
+                
+                // Submit to Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+                
+                // Show success screen
+                formContainer.style.display = 'none';
+                successContainer.classList.add('show');
+                
+                // Reset form for next user (hidden)
+                document.getElementById('surveyForm').reset();
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                errorMessage.textContent = 'There was an issue submitting your feedback. Please try again.';
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Feedback';
+            }
+        });
+    </script>
+</body>
+</html>
